@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Buscaminas</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+
+            #tablero {
+                display: grid;
+                grid-template-columns: repeat(8, 30px);
+                gap: 2px;
+
+                margin-top: 3rem;
+            }
+
+            .celda {
+                width: 30px;
+                height: 30px;
+                background-color: #ddd;
+                border: 1px solid #888;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
+
+            .celda:hover {
+                background-color: #ccc;
+            }
+
+            .celda.revelada {
+                pointer-events: none;
+            }
+        </style>
+    </head>
+    <body>
+        <label for="nivel">Selecciona el nivel</label>
+        <select name="" id="nivel">
+            <option value="" selected>Ninguno</option>
+            <option value="facil">Fácil</option>
+            <option value="medio">Medio</option>
+            <option value="dificil">Difícil</option>
+        </select>
+
+        <div id="tablero"></div>
+        <script src="./buscaminas.js"></script>
+    </body>
+</html>
