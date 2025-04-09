@@ -6,35 +6,37 @@ class Usuario {
     private $nombre;
     private $apellidos;
     private $correo;
+    private $password;
 
     public function __construct($id = null) {
         if ($id != null) {
             $usuarioDAO = new UsuarioDAO();
             $usuario = $usuarioDAO->buscar($id);
-            $this->id = $usuario[0]['id'];
-            $this->nombre = $usuario[0]['nombres'];
-            $this->apellidos = $usuario[0]['apellidos'];
-            $this->correo = $usuario[0]['correo'];
+            if (!empty($usuario)) {
+                $this->id = $usuario->id;
+                $this->nombre = $usuario->nombre;
+                $this->apellidos = $usuario->apellidos;
+                $this->correo = $usuario->correo;
+            } else {
+                throw new Exception("Usuario no encontrado");
+            }
         }
     }
 
-    public function guardar()
-    {
+    public function guardar() {
         $usuarioDAO = new UsuarioDAO();
         return $usuarioDAO->insertar($this);
     }
 
-    public function actualizar()  
-    {  
+    public function actualizar() {  
         if ($this->id === null) {  
             throw new Exception("El usuario no se ha guardado en la base de datos");  
         }  
         $usuarioDAO = new UsuarioDAO();  
         return $usuarioDAO->actualizar($this);  
     }  
-  
-    public function eliminar()  
-    {  
+
+    public function eliminar() {  
         if ($this->id === null) {  
             throw new Exception("El usuario no se ha guardado en la base de datos");  
         }  
@@ -42,40 +44,46 @@ class Usuario {
         return $usuarioDAO->eliminar($this->id);  
     }
 
+    // Getters
+    public function getId() {
+        return $this->id;
+    }
 
-  // Getters
-  public function getId() {
-    return $this->id;
-}
+    public function getNombres() {
+        return $this->nombre;
+    }
 
-public function getNombres() {
-    return $this->nombre;
-}
+    public function getApellidos() {
+        return $this->apellidos;
+    }
 
-public function getApellidos() {
-    return $this->apellidos;
-}
+    public function getCorreo() {
+        return $this->correo;
+    }
 
-public function getCorreo() {
-    return $this->correo;
-}
+    // Setters
+    public function setPassword($password) {
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+    }
 
-// Setters
-public function setId($id) {
-    $this->id = $id;
-}
+    public function verifyPassword($password) {
+        return password_verify($password, $this->password);
+    }
 
-public function setNombres($nombre) {
-    $this->nombre = $nombre;
-}
+    public function setId($id) {
+        $this->id = $id;
+    }
 
-public function setApellidos($apellidos) {
-    $this->apellidos = $apellidos;
-}
+    public function setNombres($nombre) {
+        $this->nombre = $nombre;
+    }
 
-public function setCorreo($correo) {
-    $this->correo = $correo;
-}
+    public function setApellidos($apellidos) {
+        $this->apellidos = $apellidos;
+    }
 
+    public function setCorreo($correo) {
+        $this->correo = $correo;
+    }
 }
 ?>
